@@ -534,6 +534,7 @@
 				DEVELOPMENT_TEAM = NU4TP5253F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Covid Community Level";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
@@ -567,6 +568,7 @@
 				DEVELOPMENT_TEAM = NU4TP5253F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Covid Community Level";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For finding current county and showing COVID-19 CDC risk level";

@@ -14,7 +14,7 @@ struct Model: TimelineEntry {
     var date: Date
     var riskData: APIResponse
     var userLocation: CLLocation
-    var backgroundColor: Color
+    var backgroundImage: Image
     var riskLevelString: String
 }
 
@@ -25,10 +25,10 @@ struct APIResponse : Decodable {
     var CCL_report_date: String
     
     static let placeholderData = APIResponse(
-        CCL_community_burden_level_integer: "0",
-        County: "Test",
-        State_name: "Test",
-        CCL_report_date: "Test"
+        CCL_community_burden_level_integer: "Level",
+        County: "County Name",
+        State_name: "State Name",
+        CCL_report_date: "Last Updated Time"
     )
 }
 
@@ -60,11 +60,11 @@ struct Provider: IntentTimelineProvider {
     var widgetLocationManager = WidgetLocationManager()
 
     func placeholder(in context: Context) -> Model {
-        Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundColor: Color(.white), riskLevelString: "Loading...")
+        Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundImage: Image("BackgroundLoading"), riskLevelString: "Loading...")
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Model) -> ()) {
-        let entry = Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundColor: Color(.white), riskLevelString: "Loading...")
+        let entry = Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundImage: Image("BackgroundLoading"), riskLevelString: "Loading...")
         completion(entry)
     }
 
@@ -72,22 +72,22 @@ struct Provider: IntentTimelineProvider {
 
         widgetLocationManager.fetchLocation(handler: { location in
             fetchAPIData(userLocation: location, completion: { (modelData) in
-                var backgroundColor = Color(.white)
+                var backgroundImage = Image("BackgroundLoading")
                 var riskLevelString = "Loading..."
                 
                 if modelData.CCL_community_burden_level_integer == "0" {
-                    backgroundColor = Color(.green)
+                    backgroundImage = Image("BackgroundLow")
                     riskLevelString = "Low"
                 } else if modelData.CCL_community_burden_level_integer == "1" {
-                    backgroundColor = Color(.orange)
+                    backgroundImage = Image("BackgroundMedium")
                     riskLevelString = "Medium"
                 } else if modelData.CCL_community_burden_level_integer == "2" {
-                    backgroundColor = Color(.red)
+                    backgroundImage = Image("BackgroundHigh")
                     riskLevelString = "High"
                 }
                 
                 let date = Date()
-                let data = Model(date: date, riskData: modelData, userLocation: location, backgroundColor: backgroundColor, riskLevelString: riskLevelString)
+                let data = Model(date: date, riskData: modelData, userLocation: location, backgroundImage: backgroundImage, riskLevelString: riskLevelString)
                 
                 let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: date)
                 
@@ -133,12 +133,30 @@ struct CurrentCountyWidgetEntryView : View {
     
     var body: some View {
         ZStack {
-            data.backgroundColor
-            VStack {
-                Text(data.riskData.County)
-                Text(data.riskLevelString)
+            HStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(data.riskData.County)
+                        .foregroundColor(.white)
+                        .font(.headline.bold())
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text(data.riskLevelString)
+                        .foregroundColor(.white)
+                        .font(.title.bold())
+                        .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
+                    Spacer()
+                    Text(data.riskData.CCL_report_date)
+                        .foregroundColor(.white)
+                        .opacity(0.5)
+                }.padding(20)
+                Spacer()
             }
-        }
+        }.background(
+            data.backgroundImage
+                .resizable()
+                .edgesIgnoringSafeArea(.all)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        )
     }
 }
 
@@ -150,14 +168,14 @@ struct CurrentCountyWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { data in
             CurrentCountyWidgetEntryView(data: data)
         }
-        .configurationDisplayName("Covid Risk Level")
-        .description("Shows the CDC Covid risk level in the county you are currently in.")
+        .configurationDisplayName("Covid Community Level")
+        .description("Shows the CDC community level in the county you are currently in.")
     }
 }
 
 struct CurrentCountyWidgetPreviews: PreviewProvider {
     static var previews: some View {
-        CurrentCountyWidgetEntryView(data: Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundColor: Color(.white), riskLevelString: "Loading..."))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
+        Text("Loading...")
+        .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
