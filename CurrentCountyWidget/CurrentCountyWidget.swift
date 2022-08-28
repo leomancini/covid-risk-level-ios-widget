@@ -15,20 +15,23 @@ struct Model: TimelineEntry {
     var riskData: APIResponse
     var userLocation: CLLocation
     var backgroundImage: Image
-    var riskLevelString: String
 }
 
 struct APIResponse : Decodable {
-    var CCL_community_burden_level_integer: String
-    var County: String
-    var State_name: String
-    var CCL_report_date: String
+    var riskLevelInteger: Int
+    var riskLevelString: String
+    var countyName: String
+    var stateName: String
+    var lastUpdatedTimestamp: String
+    var lastUpdatedString: String
     
     static let placeholderData = APIResponse(
-        CCL_community_burden_level_integer: "Level",
-        County: "County Name",
-        State_name: "State Name",
-        CCL_report_date: "Last Updated Time"
+        riskLevelInteger: 0,
+        riskLevelString: "Level",
+        countyName: "Current County",
+        stateName: "State Name",
+        lastUpdatedTimestamp: "every Thursday",
+        lastUpdatedString: "every Thursday"
     )
 }
 
@@ -60,11 +63,11 @@ struct Provider: IntentTimelineProvider {
     var widgetLocationManager = WidgetLocationManager()
 
     func placeholder(in context: Context) -> Model {
-        Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundImage: Image("BackgroundLoading"), riskLevelString: "Loading...")
+        Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundImage: Image("BackgroundLoading"))
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Model) -> ()) {
-        let entry = Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundImage: Image("BackgroundLoading"), riskLevelString: "Loading...")
+        let entry = Model(date: Date(), riskData: APIResponse.placeholderData, userLocation: CLLocation(), backgroundImage: Image("BackgroundLoading"))
         completion(entry)
     }
 
@@ -73,21 +76,17 @@ struct Provider: IntentTimelineProvider {
         widgetLocationManager.fetchLocation(handler: { location in
             fetchAPIData(userLocation: location, completion: { (modelData) in
                 var backgroundImage = Image("BackgroundLoading")
-                var riskLevelString = "Loading..."
                 
-                if modelData.CCL_community_burden_level_integer == "0" {
+                if modelData.riskLevelInteger == 0 {
                     backgroundImage = Image("BackgroundLow")
-                    riskLevelString = "Low"
-                } else if modelData.CCL_community_burden_level_integer == "1" {
+                } else if modelData.riskLevelInteger == 1 {
                     backgroundImage = Image("BackgroundMedium")
-                    riskLevelString = "Medium"
-                } else if modelData.CCL_community_burden_level_integer == "2" {
+                } else if modelData.riskLevelInteger == 2 {
                     backgroundImage = Image("BackgroundHigh")
-                    riskLevelString = "High"
                 }
                 
                 let date = Date()
-                let data = Model(date: date, riskData: modelData, userLocation: location, backgroundImage: backgroundImage, riskLevelString: riskLevelString)
+                let data = Model(date: date, riskData: modelData, userLocation: location, backgroundImage: backgroundImage)
                 
                 let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: date)
                 
@@ -134,21 +133,38 @@ struct CurrentCountyWidgetEntryView : View {
     var body: some View {
         ZStack {
             HStack {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(data.riskData.County)
+                VStack(alignment: .leading, spacing: 4) {
+                    (
+                        Text(data.riskData.countyName)
+                            .foregroundColor(.white)
+                            .font(.system(size: 15, weight: .semibold))
+                        +
+                        Text(" ")
+                            .foregroundColor(.white)
+                            .font(.system(size: 15, weight: .semibold))
+                        +
+                        Text(Image(systemName: "location.fill"))
+                            .foregroundColor(.white)
+                            .font(.system(size: 10))
+                    )
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: -3, leading: 0, bottom: 0, trailing: 0))
+                    Text(data.riskData.riskLevelString)
                         .foregroundColor(.white)
-                        .font(.headline.bold())
-                        .lineLimit(nil)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text(data.riskLevelString)
-                        .foregroundColor(.white)
-                        .font(.title.bold())
-                        .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
+                        .font(.title)
                     Spacer()
-                    Text(data.riskData.CCL_report_date)
+                    Text("Last updated")
                         .foregroundColor(.white)
-                        .opacity(0.5)
-                }.padding(20)
+                        .font(.system(size: 13, weight: .regular))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: -3, trailing: 0))
+                        .opacity(0.7)
+                    Text(data.riskData.lastUpdatedString)
+                        .foregroundColor(.white)
+                        .font(.system(size: 13, weight: .regular))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: -3, trailing: 0))
+                        .opacity(0.7)
+                }.padding(16)
                 Spacer()
             }
         }.background(
@@ -175,7 +191,29 @@ struct CurrentCountyWidget: Widget {
 
 struct CurrentCountyWidgetPreviews: PreviewProvider {
     static var previews: some View {
-        Text("Loading...")
+        ZStack {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Current County")
+                        .foregroundColor(.white)
+                        .font(.system(size: 15, weight: .semibold))
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(EdgeInsets(top: -3, leading: 0, bottom: 0, trailing: 0))
+                    Text("Level")
+                        .foregroundColor(.white)
+                        .font(.title)
+                    Spacer()
+                    Text("Updated every Thursday")
+                        .foregroundColor(.white)
+                        .font(.system(size: 13, weight: .regular))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: -3, trailing: 0))
+                }.padding(16)
+                Spacer()
+            }
+        }.background(
+            Color(.gray)
+        )
         .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
 }
