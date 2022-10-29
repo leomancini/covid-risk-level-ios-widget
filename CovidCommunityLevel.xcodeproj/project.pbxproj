@@ -531,8 +531,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4;
-				"CURRENT_PROJECT_VERSION[sdk=*]" = 1.4;
+				CURRENT_PROJECT_VERSION = 1.5;
+				"CURRENT_PROJECT_VERSION[sdk=*]" = 1.5;
 				DEVELOPMENT_ASSET_PATHS = "\"CovidCommunityLevel/Preview Content\"";
 				DEVELOPMENT_TEAM = NU4TP5253F;
 				ENABLE_PREVIEWS = YES;
@@ -552,7 +552,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = leomancinidesign.CovidCommunityLevel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_COMPILATION_MODE = singlefile;
@@ -570,7 +570,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4;
+				CURRENT_PROJECT_VERSION = 1.5;
 				DEVELOPMENT_ASSET_PATHS = "\"CovidCommunityLevel/Preview Content\"";
 				DEVELOPMENT_TEAM = NU4TP5253F;
 				ENABLE_PREVIEWS = YES;
@@ -590,7 +590,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = leomancinidesign.CovidCommunityLevel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -682,18 +682,21 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.5;
 				DEVELOPMENT_TEAM = NU4TP5253F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CurrentCountyWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CurrentCountyWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = leomancinidesign.CovidCommunityLevel.CurrentCountyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -709,18 +712,21 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.5;
 				DEVELOPMENT_TEAM = NU4TP5253F;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CurrentCountyWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CurrentCountyWidget;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "For finding current county and showing COVID-19 CDC risk level";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = leomancinidesign.CovidCommunityLevel.CurrentCountyWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
