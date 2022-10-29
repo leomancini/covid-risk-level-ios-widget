@@ -139,7 +139,7 @@ struct CurrentCountyWidgetEntryView : View {
                             .foregroundColor(.white)
                             .font(.system(size: 15, weight: .semibold))
                         +
-                        Text(" ")
+                        Text("&nbsp;")
                             .foregroundColor(.white)
                             .font(.system(size: 15, weight: .semibold))
                         +
